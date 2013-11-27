@@ -2,56 +2,31 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Log de fallas de las bonders</title>
+	<title>Nombres de las bonders</title>
 </head>
 <body>
-	<pre><?php 
-		// print_r($_SERVER);
-		if (isset($_GET['bonder_name'])) {
-			$bonder_name = strtoupper($_GET['bonder_name']);
-		}
-		if (file_exists("IP." . $_SERVER['REMOTE_ADDR'] . ".txt")) {
-			$file = file_get_contents("IP." . $_SERVER['REMOTE_ADDR'] . ".txt");
-			$srvr = json_decode($file,true);
-			if (isset($srvr['System_Name'])) {
-				$name = $srvr['System_Name'];
-				$hasName = true;
-			}else{
-				$name = 'No tiene nombre pero existe en la base de datos';
-				$hasName = false;
-			}
-			if (isset($bonder_name)) {
-				$_SERVER['System_Name'] = $bonder_name;
-				$name = $bonder_name;
-				$hasName = true;
-				$server = json_encode($_SERVER);
-				file_put_contents("IP." . $_SERVER['REMOTE_ADDR'] . ".txt", $server);
-			}
-		}else{
-			if (isset($bonder_name)) {
-				$_SERVER['System_Name'] = $bonder_name;
-				$name = $bonder_name;
-				$hasName = true;
-				$server = json_encode($_SERVER);
-				file_put_contents("IP." . $_SERVER['REMOTE_ADDR'] . ".txt", $server);
-			}else{
-				$name="No tiene nombre";
-				$hasName = false;
-				$server = json_encode($_SERVER);
-			}
-		}
-	?></pre>
 <form action=".">
-	<legend><?php echo $name;?></legend>
+	<legend><!-- BonderName --></legend>
 	<label>Nombre</label>
 	<input type="text" name="bonder_name">
 	<button type="submit">Cambiar nombre</button>
 </form>
-<?php 
-	$files = scandir('./');
-	foreach ($files as $file) {
-		echo $file . "<br/>";
-	}
- ?>
+
+<script type="text/javascript" src="../jsLib/jquery/jquery.js"></script>
+<script type="text/javascript" src="../jsLib/sammy/lib/min/sammy-0.7.2.min.js"></script>
+<script type="text/javascript">
+	// Inicializo la aplicacion
+	var app = Sammy('body', function () {
+		this.get('#/', function () {
+			// body...
+		})
+	})
+	// Pido la informacion de la maquina al Host (si existe [que deberia de existir])
+	// Despliego la informacion.
+	// Actualizo la direccion.
+
+	app.run('#/');
+</script>
+
 </body>
 </html>
