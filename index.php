@@ -13,7 +13,7 @@
 </form>
 
 <script type="text/javascript" src="../jsLib/jquery/jquery.js"></script>
-<script type="text/javascript" src="../jsLib/sammy/lib/min/sammy-0.7.2.min.js"></script>
+<script type="text/javascript" src="../jsLib/sammy/lib/min/sammy-latest.min.js"></script>
 <script type="text/javascript">
 	// Inicializo la aplicacion
 	var app = Sammy('body', function () {
