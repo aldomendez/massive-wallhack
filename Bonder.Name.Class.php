@@ -1,4 +1,40 @@
 <?php 
+
+
+/**
+*  Bonder Down Times
+*/
+class Bonder
+{
+	
+	function __construct(ip)
+	{
+		
+		$this->ip = ip;
+		$this->file = "IP." . $this->ip . ".txt";
+		$this->getName();
+	}
+
+	public function save_bonder_name($name)
+	{
+		$this->
+	}
+
+	private function get_bonder_data()
+	{
+		# code...
+	}
+	private function getName()
+	{
+		$this->bonder_exists();
+	}
+
+	private function bonder_exists()
+	{
+		return (file_exists($this->file)) : true ? false;
+	}
+
+}
 	// print_r($_SERVER);
 	if (isset($_GET['bonder_name'])) {
 		$bonder_name = strtoupper($_GET['bonder_name']);
@@ -34,4 +70,29 @@
 			$server = json_encode($_SERVER);
 		}
 	}
-?>
+
+
+$bonder = new Bonder($_GET['bonder_name']);
+
+if (isset($_POST['action']) && $_POST['action'] !== '') {
+	if (function_exists($_POST['action'])) {
+		try {
+			$_POST['action']();
+		} catch (Exception $e) {
+			echo '{"error":true,"desc":"Exception in:Post: [' . $_POST['action'] . '] with message: ' . $e->getMessage() . '"}';
+		}
+	} else {
+		echo '{"error":true,"desc":"Exception in: Function Parser:[' . $_GET['action'] . '] with message: "Funcion no existe"}';
+	}
+}
+if (isset($_GET['action']) && $_GET['action'] !== '') {
+	if (function_exists($_GET['action'])) {
+		try {
+			$_GET['action']();
+		} catch (Exception $e) {
+			echo '{"error":true,"desc":"Exception in: Get:[' . $_GET['action'] . '] with message: ' . $e->getMessage() . '"}';
+		}
+	} else {
+		echo '{"error":true,"desc":"Exception in: Function Parser:[' . $_GET['action'] . '] with message: "Funcion no existe"}';
+	}
+}
