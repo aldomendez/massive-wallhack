@@ -20,7 +20,7 @@
 ++++++++++++++++++++++++++++++++++++++++++++ -->
   <div class="header">
     <ul class="nav nav-pills pull-right">
-      <li class="active"><a href="#/">Inicio</a></li>
+      <li class="active"><a href="#/edit_bonder">#BonderName</a></li>
       <li><a href="#/todas">Todas</a></li>
       <li><a href="#/comentarios">Comentarios</a></li>
     </ul>
@@ -31,15 +31,39 @@
   <div class="jumbotron">
     <h1>#BonderName</h1>
     <p class="lead">Causa por la que esta actualmente detenida</p>
-    <p><a class="btn btn-lg btn-success" href="#/start" role="button">#time_down[hh:mm]</a></p>
+    <p><a class="btn btn-lg btn-success" href="#/" role="button" id="downtime-start">#time_down[hh:mm]</a></p>
   </div>
-<!-- Input dialog
+<!-- Formato de alta de nuevas maquinas
+++++++++++++++++++++++++++++++++++++++++++++ -->
+  <div class="row hidden">
+    <form role="form">
+      <legend>Alta de nuevas maquinas</legend>
+      <div class="form-group">
+        <label for="bonder_name">Nombre</label>
+        <input class="form-control" type="text" id="bonder_name" placeholder="Ingresa el nombre de la Maquina"></input>
+      </div>
+      <div class="radio">
+        <label class="radio-inline">
+          <input type="radio" id="env-1" name="Enviroment"> Maquina de produccion
+        </label>
+        </div><div class="radio">
+        <label class="radio-inline">
+          <input type="radio" id="env-2" name="Enviroment"> Maquina de revision
+        </label>
+      </div>
+      <a href="#/" class="btn btn-default" id="save-machine-data">Guardar</a>
+    </form>
+  </div>
+<!-- Downtime dialog
 ++++++++++++++++++++++++++++++++++++++++++++ -->
   <div class="row hidden" id="downtime_diag">
     <div class="input-group">
       <input type="text" class="form-control input-sm" id="downtime_input">
       <span class="input-group-btn">
-        <a class="btn btn-default btn-sm" href="#/Report">Report</a>
+        <a class="btn btn-default btn-sm" href="#/" id="downtime-report">Report</a>
+      </span>
+      <span class="input-group-btn">
+        <a class="btn btn-default btn-sm" href="#/" id="downtime-cancel">Cancel</a>
       </span>
     </div>
   </div>
@@ -63,17 +87,13 @@
 
 <script type="text/javascript" src="../jsLib/jquery/jquery.js"></script>
 <script type="text/javascript" src="../jsLib/sammy/lib/min/sammy-latest.min.js"></script>
+<script type="text/javascript" src="../jsLib/moment/moment.min.js"></script>
 <script type="text/javascript">
   // Inicializo la aplicacion
+
   var app = Sammy('body', function () {
     this.get('#/', function () {
       // Fetch actual state
-    });
-
-    this.get('#/start', function () {
-      $('#downtime_diag').removeClass('hidden');
-      $("#downtime_input").focus().val('');
-      this.redirect("#/");
     });
 
     this.get('#/Report', function () {
@@ -85,7 +105,63 @@
   // Despliego la informacion.
   // Actualizo la direccion.
 
-  app.run('#/');
+  $(document).ready(function(){
+  
+    var App = {
+      apiAddress:'Bonder.Name.Class.php',
+      clockDisplay:$('downtime-start'),
+      timerDone:true,
+
+      timedUpdate:function (seconds) {
+        if (!seconds) {seconds = 1000};
+        App.updateTime();
+        if (App.timerDone) {
+          window.setTimeout(App.updateTime,seconds);
+        };
+      },
+      
+      updateTime:function () {
+        var time = moment("4:18","hh:mm").fromNow();
+        App.clockDisplay.html(time);
+      },
+      log:function(message) {
+        console.log(message);
+      }
+    };
+
+    log = App.log;
+    app.run('#/');
+
+
+    $('#save-machine-data').click(function(){
+      $.getJSON(App.apiAddress,function(data){
+
+      })
+    });
+
+    $('#downtime-start').click(function (e) {
+      e.preventDefault();
+      $('#downtime_diag').removeClass('hidden');
+      $("#downtime_input").focus().val('');
+    });
+
+    $('#downtime-report').click(function (e) {
+      e.preventDefault();
+      log('report: enter')
+      $('#downtime_diag').addClass('hidden');
+      $("#downtime_input").focus().val('');
+      App.timedUpdate();
+    })
+
+    $('#downtime-cancel').click(function (e) {
+      e.preventDefault();
+      $('#downtime_diag').addClass('hidden');
+      $("#downtime_input").focus().val('');
+    });
+
+  });
+
+  
 </script>
 
 </body>

@@ -7,22 +7,24 @@
 class Bonder
 {
 	
-	function __construct(ip)
+	function __construct($ip)
 	{
 		
-		$this->ip = ip;
+		$this->ip = $ip;
 		$this->file = "IP." . $this->ip . ".txt";
-		$this->getName();
+		if (!$this->bonder_exists()) {
+			throw new Exception("Bonder_dont_exist, assosiate a bonder with: ". $this->ip , 1);
+		}
 	}
 
 	public function save_bonder_name($name)
 	{
-		$this->
+		$this->save;
 	}
 
 	private function get_bonder_data()
 	{
-		# code...
+		return json_decode($this->file, true);
 	}
 	private function getName()
 	{
@@ -31,7 +33,7 @@ class Bonder
 
 	private function bonder_exists()
 	{
-		return (file_exists($this->file)) : true ? false;
+		return file_exists($this->file);
 	}
 
 }
@@ -72,8 +74,6 @@ class Bonder
 	}
 
 
-$bonder = new Bonder($_GET['bonder_name']);
-
 if (isset($_POST['action']) && $_POST['action'] !== '') {
 	if (function_exists($_POST['action'])) {
 		try {
@@ -95,4 +95,10 @@ if (isset($_GET['action']) && $_GET['action'] !== '') {
 	} else {
 		echo '{"error":true,"desc":"Exception in: Function Parser:[' . $_GET['action'] . '] with message: "Funcion no existe"}';
 	}
+}
+
+function get_bonder_data()
+{
+	$bonder = new Bonder($_SERVER['REMOTE_ADDR']);
+	echo $bonder->get_bonder_data();
 }
