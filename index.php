@@ -88,6 +88,7 @@
 <script type="text/javascript" src="../jsLib/jquery/jquery.js"></script>
 <script type="text/javascript" src="../jsLib/sammy/lib/min/sammy-latest.min.js"></script>
 <script type="text/javascript" src="../jsLib/moment/moment.min.js"></script>
+<script type="text/javascript" src="../jsLib/xdate/xdate.js"></script>
 <script type="text/javascript">
   // Inicializo la aplicacion
 
@@ -104,31 +105,33 @@
   // Pido la informacion de la maquina al Host (si existe [que deberia de existir])
   // Despliego la informacion.
   // Actualizo la direccion.
+  var App = {
+    apiAddress:'Bonder.Name.Class.php',
+    clock:{
+      display:$('#downtime-start'),
+      timerDone:true
+    },
+
+    timedUpdate:function (seconds) {
+      if (!seconds) {seconds = 1000};
+      App.updateTime();
+      if (App.clock.timerDone) {
+        window.setTimeout(App.timedUpdate,seconds);
+      };
+    },
+    
+    updateTime:function () {
+      var time = moment("15:18","hh:mm").fromNow();
+      App.clock.display.html(time);
+    },
+
+    log:function(message) {
+      console.log(message);
+    }
+  };
 
   $(document).ready(function(){
   
-    var App = {
-      apiAddress:'Bonder.Name.Class.php',
-      clockDisplay:$('downtime-start'),
-      timerDone:true,
-
-      timedUpdate:function (seconds) {
-        if (!seconds) {seconds = 1000};
-        App.updateTime();
-        if (App.timerDone) {
-          window.setTimeout(App.updateTime,seconds);
-        };
-      },
-      
-      updateTime:function () {
-        var time = moment("4:18","hh:mm").fromNow();
-        App.clockDisplay.html(time);
-      },
-      log:function(message) {
-        console.log(message);
-      }
-    };
-
     log = App.log;
     app.run('#/');
 
@@ -147,7 +150,6 @@
 
     $('#downtime-report').click(function (e) {
       e.preventDefault();
-      log('report: enter')
       $('#downtime_diag').addClass('hidden');
       $("#downtime_input").focus().val('');
       App.timedUpdate();
