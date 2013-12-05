@@ -11,7 +11,7 @@
 
   <title>Log De Bonders</title>
 
-  <link rel="stylesheet" href="../jsLib/bootstrap3.0.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
     <link href="jumbotron-narrow.css" rel="stylesheet">
 </head>
 <body>
@@ -85,10 +85,10 @@
 
 </div> <!-- /container -->
 
-<script type="text/javascript" src="../jsLib/jquery/jquery.js"></script>
-<script type="text/javascript" src="../jsLib/sammy/lib/min/sammy-latest.min.js"></script>
-<script type="text/javascript" src="../jsLib/moment/moment.min.js"></script>
-<script type="text/javascript" src="../jsLib/xdate/xdate.js"></script>
+<script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="js/sammy.js"></script>
+<script type="text/javascript" src="js/moment.js"></script>
+<script type="text/javascript" src="js/xdate.js"></script>
 <script type="text/javascript">
   // Inicializo la aplicacion
 
