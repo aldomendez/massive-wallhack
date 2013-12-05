@@ -18,7 +18,7 @@ class App
 		@machineNameContainer = $('#machine-name')
 		@clock = new StopWatch $('#downtime-start')
 		@renderName()
-		@url = 'bonder.php'
+		@url = 'bonder.php/bonder'
 		@bonder = new Bonder {
 			ip:@ip
 		}
@@ -33,5 +33,5 @@ Bonder = Backbone.Model.extend {
 		name:''
 		ip:''
 	}
-	url:'bonder.php?action=get_bonder_data'
+	url:'bonder.php/bonder'
 }

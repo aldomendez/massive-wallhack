@@ -19,7 +19,7 @@ App = (function() {
     this.machineNameContainer = $('#machine-name');
     this.clock = new StopWatch($('#downtime-start'));
     this.renderName();
-    this.url = 'bonder.php';
+    this.url = 'bonder.php/bonder';
     this.bonder = new Bonder({
       ip: this.ip
     });
@@ -41,5 +41,5 @@ Bonder = Backbone.Model.extend({
     name: '',
     ip: ''
   },
-  url: 'bonder.php?action=get_bonder_data'
+  url: 'bonder.php/bonder'
 });

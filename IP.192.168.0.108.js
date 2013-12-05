@@ -1,1 +1,1 @@
-{"name":"VAIO"}
+{"name":"MyPersonalComputer"}

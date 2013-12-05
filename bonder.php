@@ -23,7 +23,6 @@ class Bonder
 	{
 		$this->filecontents['name'] = $name;
 		file_put_contents($this->file, json_encode($this->filecontents));
-		echo $this->filecontents['name'];
 	}
 
 	public function get_bonder_data()
@@ -41,44 +40,22 @@ class Bonder
 	}
 
 }
-/*
- * Para hacer la interfaz REST todo esto estorba hasta cierto modo
- * Tratare de hacer que funcione si esto con cosas mas sencillas
-if (isset($_POST['action']) && $_POST['action'] !== '') {
-	if (function_exists($_POST['action'])) {
-		try {
-			$_POST['action']();
-		} catch (Exception $e) {
-			echo '{"error":true,"desc":"Exception in:Post: [' . $_POST['action'] . '] with message: ' . $e->getMessage() . '"}';
-		}
-	} else {
-		echo '{"error":true,"desc":"Exception in: Function Parser:[' . $_GET['action'] . '] with message: "Funcion no existe"}';
-	}
-} elseif (isset($_GET['action']) && $_GET['action'] !== '') {
-	if (function_exists($_GET['action'])) {
-		try {
-			$_GET['action']();
-		} catch (Exception $e) {
-			echo '{"error":true,"desc":"Exception in: Get:[' . $_GET['action'] . '] with message: ' . $e->getMessage() . '"}';
-		}
-	} else {
-		echo '{"error":true,"desc":"Exception in: Function Parser:[' . $_GET['action'] . '] with message: "Funcion no existe"}';
-	}
-} else {
-		echo '{"error":true,"desc":"Exception in: Function [Parser] with message: "No se encontro el parametro [action]"}';
-}
-*/
 
+$app = new \Slim\Slim(array(
+	'debug'=>true
+));
 
-
-function get_bonder_data()
+$app->get('/bonder', function()
 {
 	$bonder = new Bonder($_SERVER['REMOTE_ADDR']);
 	echo $bonder->get_bonder_data();
-}
+});
 
-function register()
+
+$app->post('/bonder', function()
 {
 	$bonder = new Bonder($_SERVER['REMOTE_ADDR'],'registering');
-	$bonder->save_bonder_name($_GET['name']);
-}
+	$bonder->save_bonder_name($_POST['name']);
+});
+
+$app->run();
