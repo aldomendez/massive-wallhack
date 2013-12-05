@@ -1,1 +1,1 @@
-{"name":"MyPersonalComputer"}
+{"ip":"192.168.0.108","name":"MacAddress"}

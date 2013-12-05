@@ -19,10 +19,10 @@ class Bonder
 		}
 	}
 
-	public function save_bonder_name($name)
+	public function save_bonder_data()
 	{
-		$this->filecontents['name'] = $name;
-		file_put_contents($this->file, json_encode($this->filecontents));
+		$this->filecontents = $_POST;
+		file_put_contents($this->file, file_get_contents('php://input'));
 	}
 
 	public function get_bonder_data()
@@ -55,7 +55,8 @@ $app->get('/bonder', function()
 $app->post('/bonder', function()
 {
 	$bonder = new Bonder($_SERVER['REMOTE_ADDR'],'registering');
-	$bonder->save_bonder_name($_POST['name']);
+	$bonder->save_bonder_data();
+	echo file_get_contents('php://input');
 });
 
 $app->run();
