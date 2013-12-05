@@ -18,7 +18,20 @@ class App
 		@machineNameContainer = $('#machine-name')
 		@clock = new StopWatch $('#downtime-start')
 		@renderName()
+		@url = 'bonder.php'
+		@bonder = new Bonder {
+			ip:@ip
+		}
+		@bonder.fetch()
 
 	renderName:()->
 		nameDisplay = if @name? then @name else @ip 
 		@machineNameContainer.html nameDisplay
+
+Bonder = Backbone.Model.extend {
+	defaults:{
+		name:''
+		ip:''
+	}
+	url:'bonder.php?action=get_bonder_data'
+}

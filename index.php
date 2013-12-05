@@ -19,7 +19,7 @@
 <!-- header
 ++++++++++++++++++++++++++++++++++++++++++++ -->
   <div class="header">
-    <ul class="nav nav-pills pull-right">
+    <ul class="nav nav-pills pull-right hidden-xs">
       <li class="active"><a href="#/edit_bonder">#BonderName</a></li>
       <li><a href="#/celda">Celda</a></li>
       <li><a href="#/todas">Todas</a></li>
@@ -87,7 +87,9 @@
 </div> <!-- /container -->
 
 <script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="js/underscore-1.5.2.min.js"></script>
 <script type="text/javascript" src="js/sammy.js"></script>
+<script type="text/javascript" src="js/backbone-1.1.0min.js"></script>
 <script type="text/javascript" src="js/stopwatch.js"></script>
 <script type="text/javascript" src="js/moment.js"></script>
 <script type="text/javascript" src="js/xdate.js"></script>
