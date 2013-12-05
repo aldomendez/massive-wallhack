@@ -21,6 +21,7 @@
   <div class="header">
     <ul class="nav nav-pills pull-right">
       <li class="active"><a href="#/edit_bonder">#BonderName</a></li>
+      <li><a href="#/celda">Celda</a></li>
       <li><a href="#/todas">Todas</a></li>
       <li><a href="#/comentarios">Comentarios</a></li>
     </ul>
@@ -29,7 +30,7 @@
 <!-- Jumbotron
 ++++++++++++++++++++++++++++++++++++++++++++ -->
   <div class="jumbotron">
-    <h1>#BonderName</h1>
+    <h1 id="machine-name">#machine-name</h1>
     <p class="lead">Causa por la que esta actualmente detenida</p>
     <p><a class="btn btn-lg btn-success" href="#/" role="button" id="downtime-start">#time_down[hh:mm]</a></p>
   </div>
@@ -87,84 +88,16 @@
 
 <script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
 <script type="text/javascript" src="js/sammy.js"></script>
+<script type="text/javascript" src="js/stopwatch.js"></script>
 <script type="text/javascript" src="js/moment.js"></script>
 <script type="text/javascript" src="js/xdate.js"></script>
-<script type="text/javascript">
-  // Inicializo la aplicacion
-
-  var app = Sammy('body', function () {
-    this.get('#/', function () {
-      // Fetch actual state
+<script type="text/javascript" src="js/app.js"></script>
+<script>
+  $(function () {
+      sammy.run('#/');
+      window.app = new App('<?php echo $_SERVER['REMOTE_ADDR']; ?>');
+      app.clock.start();
     });
-
-    this.get('#/Report', function () {
-      $('#downtime_diag').addClass('hidden');
-      this.redirect("#/");
-    });
-  })
-  // Pido la informacion de la maquina al Host (si existe [que deberia de existir])
-  // Despliego la informacion.
-  // Actualizo la direccion.
-  var App = {
-    apiAddress:'Bonder.Name.Class.php',
-    clock:{
-      display:$('#downtime-start'),
-      timerDone:true
-    },
-
-    timedUpdate:function (seconds) {
-      if (!seconds) {seconds = 1000};
-      App.updateTime();
-      if (App.clock.timerDone) {
-        window.setTimeout(App.timedUpdate,seconds);
-      };
-    },
-    
-    updateTime:function () {
-      var time = moment("15:18","hh:mm").fromNow();
-      App.clock.display.html(time);
-    },
-
-    log:function(message) {
-      console.log(message);
-    }
-  };
-
-  $(document).ready(function(){
-  
-    log = App.log;
-    app.run('#/');
-
-
-    $('#save-machine-data').click(function(){
-      $.getJSON(App.apiAddress,function(data){
-
-      })
-    });
-
-    $('#downtime-start').click(function (e) {
-      e.preventDefault();
-      $('#downtime_diag').removeClass('hidden');
-      $("#downtime_input").focus().val('');
-    });
-
-    $('#downtime-report').click(function (e) {
-      e.preventDefault();
-      $('#downtime_diag').addClass('hidden');
-      $("#downtime_input").focus().val('');
-      App.timedUpdate();
-    })
-
-    $('#downtime-cancel').click(function (e) {
-      e.preventDefault();
-      $('#downtime_diag').addClass('hidden');
-      $("#downtime_input").focus().val('');
-    });
-
-  });
-
-  
 </script>
-
 </body>
 </html>
