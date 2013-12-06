@@ -17,19 +17,32 @@ App = (function() {
   function App(ip) {
     this.ip = ip;
     this.machineNameContainer = $('#machine-name');
-    this.clock = new StopWatch($('#downtime-start'));
+    this.clock = new StopWatch($('#downtime-start'), 60000);
     this.renderName();
-    this.url = 'bonder.php/bonder';
     this.bonder = new Bonder({
       ip: this.ip
     });
-    this.bonder.fetch();
+    this.loadCurrentState();
   }
+
+  App.prototype.loadCurrentState = function() {
+    return this.bonder.fetch({
+      success: function(model, response, options) {
+        if (response.currentTimer != null) {
+          return app.timerStart(response.currentTimer);
+        }
+      }
+    });
+  };
 
   App.prototype.renderName = function() {
     var nameDisplay;
     nameDisplay = this.name != null ? this.name : this.ip;
     return this.machineNameContainer.html(nameDisplay);
+  };
+
+  App.prototype.timerStart = function(miliseconds) {
+    return this.bonder.set('currentTimer', this.clock.start(miliseconds));
   };
 
   return App;

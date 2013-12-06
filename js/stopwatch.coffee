@@ -4,11 +4,10 @@ class StopWatch
     @startTime = 0
     @stopTime = 0
 
-  start:()->
-    @startTime = new Date()
-    @running = true
-    console.log @selfRunner(@)
-    @startTime
+  start:(miliseconds)->
+    @startTime = if miliseconds? then new Date(miliseconds) else new Date()
+    @selfRunner(@)
+    @startTime.valueOf()
 
   selfRunner:(that)->
     that.render()
@@ -27,7 +26,7 @@ class StopWatch
     @stopTime = new Date()
     @render()
     window.clearTimeout @timer
-    @elapsed()
+    [@elapsed(),@stopTime]
 
   render:()->
     @display.html(@elapsed())

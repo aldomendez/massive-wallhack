@@ -91,8 +91,8 @@
 <script type="text/javascript" src="js/sammy.js"></script>
 <script type="text/javascript" src="js/backbone-1.1.0min.js"></script>
 <script type="text/javascript" src="js/stopwatch.js"></script>
-<script type="text/javascript" src="js/moment.js"></script>
-<script type="text/javascript" src="js/xdate.js"></script>
+<!-- <script type="text/javascript" src="js/moment.js"></script> -->
+<!-- <script type="text/javascript" src="js/xdate.js"></script> -->
 <script type="text/javascript" src="js/app.js"></script>
 <script>
   $(function () {

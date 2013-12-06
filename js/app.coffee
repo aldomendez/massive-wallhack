@@ -16,17 +16,24 @@ sammy = Sammy 'body',()->
 class App
 	constructor:(@ip)->
 		@machineNameContainer = $('#machine-name')
-		@clock = new StopWatch $('#downtime-start')
+		@clock = new StopWatch $('#downtime-start'),60000
 		@renderName()
-		@url = 'bonder.php/bonder'
 		@bonder = new Bonder {
 			ip:@ip
 		}
-		@bonder.fetch()
+		@loadCurrentState()
+
+	loadCurrentState:()->
+		@bonder.fetch {success:(model,response,options)->
+			app.timerStart response.currentTimer if response.currentTimer?
+		}
 
 	renderName:()->
 		nameDisplay = if @name? then @name else @ip 
 		@machineNameContainer.html nameDisplay
+
+	timerStart:(miliseconds)->
+		@bonder.set 'currentTimer', @clock.start(miliseconds)
 
 Bonder = Backbone.Model.extend {
 	defaults:{

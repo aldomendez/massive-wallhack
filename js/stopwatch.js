@@ -9,11 +9,10 @@ StopWatch = (function() {
     this.stopTime = 0;
   }
 
-  StopWatch.prototype.start = function() {
-    this.startTime = new Date();
-    this.running = true;
-    console.log(this.selfRunner(this));
-    return this.startTime;
+  StopWatch.prototype.start = function(miliseconds) {
+    this.startTime = miliseconds != null ? new Date(miliseconds) : new Date();
+    this.selfRunner(this);
+    return this.startTime.valueOf();
   };
 
   StopWatch.prototype.selfRunner = function(that) {
@@ -40,7 +39,7 @@ StopWatch = (function() {
     this.stopTime = new Date();
     this.render();
     window.clearTimeout(this.timer);
-    return this.elapsed();
+    return [this.elapsed(), this.stopTime];
   };
 
   StopWatch.prototype.render = function() {
