@@ -14,6 +14,8 @@ class Bonder
 		$this->file = "IP." . $this->ip . ".js";
 		if (!$this->bonder_exists() && $help != 'registering') {
 			throw new Exception("Bonder_dont_exist, assosiate a bonder with: ". $this->ip , 1);
+		} elseif ($help=='registering') {
+			file_put_contents($this->file, '');
 		} else {
 			$this->filecontents = json_decode(file_get_contents($this->file),true);
 		}

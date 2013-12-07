@@ -19,37 +19,37 @@
 <!-- header
 ++++++++++++++++++++++++++++++++++++++++++++ -->
   <div class="header">
-    <ul class="nav nav-pills pull-right hidden-xs">
+    <ul class="nav nav-pills pull-right">
       <li class="active"><a href="#/edit_bonder">#BonderName</a></li>
       <li><a href="#/celda">Celda</a></li>
       <li><a href="#/todas">Todas</a></li>
       <li><a href="#/comentarios">Comentarios</a></li>
     </ul>
-    <h3 class="text-muted">Tiempos Perdidos</h3>
+    <h3 class="text-muted hidden-xs">Tiempos Perdidos</h3>
   </div>
 <!-- Jumbotron
 ++++++++++++++++++++++++++++++++++++++++++++ -->
   <div class="jumbotron">
     <h1 id="machine-name">#machine-name</h1>
     <p class="lead">Causa por la que esta actualmente detenida</p>
-    <p><a class="btn btn-lg btn-success" href="#/" role="button" id="downtime-start">#time_down[hh:mm]</a></p>
+    <p><a class="btn btn-lg btn-success" href="#/" role="button" id="downtime-start">Reportar falla</a></p>
   </div>
 <!-- Formato de alta de nuevas maquinas
 ++++++++++++++++++++++++++++++++++++++++++++ -->
-  <div class="row hidden">
+  <div class="row hidden" id="machine-setup">
     <form role="form">
       <legend>Alta de nuevas maquinas</legend>
       <div class="form-group">
-        <label for="bonder_name">Nombre</label>
-        <input class="form-control" type="text" id="bonder_name" placeholder="Ingresa el nombre de la Maquina"></input>
+        <label for="bonder-name">Nombre</label>
+        <input class="form-control" type="text" id="bonder-name" placeholder="Ingresa el nombre de la Maquina"></input>
       </div>
       <div class="radio">
         <label class="radio-inline">
-          <input type="radio" id="env-1" name="Enviroment"> Maquina de produccion
+          <input type="radio" id="env-1" name="enviroment" value="prod"> Maquina de produccion
         </label>
         </div><div class="radio">
         <label class="radio-inline">
-          <input type="radio" id="env-2" name="Enviroment"> Maquina de revision
+          <input type="radio" id="env-2" name="enviroment" value="rev"> Maquina de revision
         </label>
       </div>
       <a href="#/" class="btn btn-default" id="save-machine-data">Guardar</a>
@@ -70,7 +70,7 @@
   </div>
 <!-- Lista de Downtimes pasados
 ++++++++++++++++++++++++++++++++++++++++++++ -->
-  <div class="row marketing">
+  <div class="row downtime">
     <ul class="list-group col-lg-12">
       <a href="#/show_more" class="list-group-item">
         <h4 class="list-group-item-heading">#downtime</h4>
@@ -98,7 +98,6 @@
   $(function () {
       sammy.run('#/');
       window.app = new App('<?php echo $_SERVER['REMOTE_ADDR']; ?>');
-      app.clock.start();
     });
 </script>
 </body>

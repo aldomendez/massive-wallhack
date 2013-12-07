@@ -17,19 +17,25 @@ class App
 	constructor:(@ip)->
 		@machineNameContainer = $('#machine-name')
 		@clock = new StopWatch $('#downtime-start'),60000
-		@renderName()
 		@bonder = new Bonder {
 			ip:@ip
 		}
+		@renderName()
 		@loadCurrentState()
 
 	loadCurrentState:()->
-		@bonder.fetch {success:(model,response,options)->
-			app.timerStart response.currentTimer if response.currentTimer?
+		@bonder.fetch {
+			success:(model,response,options)->
+				app.timerStart response.currentTimer if response.currentTimer?
+				app.renderName()
+			error:(model,response,options)->
+				$('#machine-setup').removeClass 'hidden'
+				$('.jumbotron').addClass 'hidden'
+				$('.downtime').addClass 'hidden'
 		}
 
 	renderName:()->
-		nameDisplay = if @name? then @name else @ip 
+		nameDisplay = if @bonder.attributes.name? then @bonder.attributes.name else @ip
 		@machineNameContainer.html nameDisplay
 
 	timerStart:(miliseconds)->
@@ -42,3 +48,9 @@ Bonder = Backbone.Model.extend {
 	}
 	url:'bonder.php/bonder'
 }
+
+$('#save-machine-data').click (e)->
+	e.preventDefault()
+	app.bonder.set 'name', $('#bonder-name').val()
+	app.bonder.set 'enviroment', $('[name=enviroment]').val()
+	app.bonder.save()

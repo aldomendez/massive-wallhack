@@ -18,10 +18,10 @@ App = (function() {
     this.ip = ip;
     this.machineNameContainer = $('#machine-name');
     this.clock = new StopWatch($('#downtime-start'), 60000);
-    this.renderName();
     this.bonder = new Bonder({
       ip: this.ip
     });
+    this.renderName();
     this.loadCurrentState();
   }
 
@@ -29,15 +29,21 @@ App = (function() {
     return this.bonder.fetch({
       success: function(model, response, options) {
         if (response.currentTimer != null) {
-          return app.timerStart(response.currentTimer);
+          app.timerStart(response.currentTimer);
         }
+        return app.renderName();
+      },
+      error: function(model, response, options) {
+        $('#machine-setup').removeClass('hidden');
+        $('.jumbotron').addClass('hidden');
+        return $('.downtime').addClass('hidden');
       }
     });
   };
 
   App.prototype.renderName = function() {
     var nameDisplay;
-    nameDisplay = this.name != null ? this.name : this.ip;
+    nameDisplay = this.bonder.attributes.name != null ? this.bonder.attributes.name : this.ip;
     return this.machineNameContainer.html(nameDisplay);
   };
 
@@ -55,4 +61,11 @@ Bonder = Backbone.Model.extend({
     ip: ''
   },
   url: 'bonder.php/bonder'
+});
+
+$('#save-machine-data').click(function(e) {
+  e.preventDefault();
+  app.bonder.set('name', $('#bonder-name').val());
+  app.bonder.set('enviroment', $('[name=enviroment]').val());
+  return app.bonder.save();
 });
